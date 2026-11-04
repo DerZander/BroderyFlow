@@ -1,0 +1,318 @@
+import { useSyncExternalStore } from 'react';
+
+export type Language = 'en' | 'de';
+export interface LocalizedMessage {
+  key: string;
+  values: unknown[];
+}
+export type LocalizedText = string | LocalizedMessage;
+
+const english: Record<string, string> = {
+  'Standard': 'Default',
+  'Blau': 'Blue',
+  'Grün': 'Green',
+  'Gelb': 'Yellow',
+  'Rot': 'Red',
+  'Lila': 'Purple',
+  'Kein Wert vorhanden und kein Standardwert gesetzt.': 'No value available and no default value set.',
+  '„{0}“ ist keine gültige Zahl.': '“{0}” is not a valid number.',
+  '„{0}“ ist kein gültiger Boolean (true oder false).': '“{0}” is not a valid boolean (true or false).',
+  'Der Standardwert für object muss ein JSON-Objekt sein.': 'The default value for object must be a JSON object.',
+  '{0}: Die Liste der {1} ist ungültig.': '{0}: The list of {1} is invalid.',
+  '{0}: Ein Port in den {1} ist ungültig.': '{0}: A port in the {1} is invalid.',
+  '{0}: Alle {1} benötigen einen Namen.': '{0}: All {1} need a name.',
+  '{0}: {1} dürfen keine doppelten Namen haben.': '{0}: {1} must not have duplicate names.',
+  '{0}: Ungültiger Datentyp am Port „{1}“.': '{0}: Invalid data type on port “{1}”.',
+  'Verbinde einen Ausgang mit einem Eingang.': 'Connect an output to an input.',
+  'Eine Node kann nicht mit sich selbst verbunden werden.': 'A node cannot be connected to itself.',
+  'Der ausgewählte Ein- oder Ausgang existiert nicht mehr.': 'The selected input or output no longer exists.',
+  'Datentypen stimmen nicht überein: {0} → {1}.': 'Data types do not match: {0} → {1}.',
+  'Der Eingang „{0}“ ist bereits verbunden.': 'Input “{0}” is already connected.',
+  'Die Datei enthält kein gültiges BroderyFlow-Projekt.': 'The file does not contain a valid BroderyFlow project.',
+  'Unbekannte Projektversion „{0}“. Die Datei wurde nicht geändert.': 'Unknown project version “{0}”. The file was not changed.',
+  'Das Projekt ist unvollständig oder ungültig.': 'The project is incomplete or invalid.',
+  'Das Projekt enthält eine ungültige Node.': 'The project contains an invalid node.',
+  'Die Node-ID „{0}“ ist doppelt vorhanden.': 'Node ID “{0}” is duplicated.',
+  'Das Projekt enthält eine ungültige Node-Größe.': 'The project contains an invalid node size.',
+  'Das Projekt enthält eine ungültige Node-Farbe.': 'The project contains an invalid node color.',
+  '{0}: Die gespeicherte Datei ist ungültig.': '{0}: The saved file is invalid.',
+  'Eingänge': 'Inputs',
+  'Ausgänge': 'Outputs',
+  '{0}: Die Konstanten sind ungültig.': '{0}: The constants are invalid.',
+  '{0}: Alle Konstanten benötigen einen Namen.': '{0}: All constants need a name.',
+  '{0}: Konstantennamen müssen eindeutig sein.': '{0}: Constant names must be unique.',
+  'Das Projekt enthält eine Verbindung zu einer unbekannten Node.': 'The project contains a connection to an unknown node.',
+  'Die Verbindungs-ID „{0}“ ist doppelt vorhanden.': 'Connection ID “{0}” is duplicated.',
+  'Ungültige Verbindung: {0}': 'Invalid connection: {0}',
+  'Ein Eingang ist mehrfach verbunden.': 'An input has multiple connections.',
+  '{0} (Zeile {1})': '{0} (line {1})',
+  'Mein Workflow': 'My Workflow',
+  'Verbinde Ports desselben Datentyps. JavaScript läuft getrennt in einem Web Worker.': 'Connect ports of the same data type. JavaScript runs separately in a Web Worker.',
+  'Verbundener Flow wird validiert…': 'Validating connected flow…',
+  'Validierung läuft…': 'Validating…',
+  'Die ausgewählte Node existiert nicht mehr.': 'The selected node no longer exists.',
+  'Zyklische Verbindung erkannt. Entferne eine Verbindung, um den Workflow auszuführen.': 'Cycle detected. Remove a connection to run the workflow.',
+  'Eingang „{0}“ hat keinen Wert.': 'Input “{0}” has no value.',
+  'Eingang „{0}“ erwartet {1}, erhielt {2}.': 'Input “{0}” expects {1}, received {2}.',
+  'Alle Konstanten benötigen einen Namen.': 'All constants need a name.',
+  'Konstantennamen müssen eindeutig sein.': 'Constant names must be unique.',
+  'Die Bedingungs-Node benötigt einen JavaScript-Ausdruck.': 'The condition node requires a JavaScript expression.',
+  'Ausgang „{0}“ wurde von run(inputs) nicht zurückgegeben.': 'Output “{0}” was not returned by run(inputs).',
+  'Ausgang „{0}“ muss den Typ {1} haben.': 'Output “{0}” must have type {1}.',
+  'Verbundener Flow erfolgreich ausgeführt · {0} {1}.': 'Connected flow completed successfully · {0} {1}.',
+  'Workflow erfolgreich ausgeführt · {0} {1}.': 'Workflow completed successfully · {0} {1}.',
+  'Workflow fehlgeschlagen: {0}': 'Workflow failed: {0}',
+  'Der ausgewählte Ausgang existiert nicht mehr.': 'The selected output no longer exists.',
+  'Verbindung erstellt.': 'Connection created.',
+  'Automatische Code-Eingänge können nur zu Code-Nodes hinzugefügt werden.': 'Automatic code inputs can only be added to code nodes.',
+  'Der Eingang konnte nicht ergänzt werden: Bitte korrigiere zuerst den JavaScript-Code der Ziel-Node.': 'Could not add the input: Please fix the target node’s JavaScript code first.',
+  '„{0}“ als Eingang ergänzt und verbunden.': 'Added and connected “{0}” as an input.',
+  'BroderyFlow-Projekt': 'BroderyFlow project',
+  'Sidebar einklappen': 'Collapse sidebar',
+  'Sidebar ausklappen': 'Expand sidebar',
+  'Projekt wurde gespeichert.': 'Project saved.',
+  'Speichern fehlgeschlagen: {0}': 'Save failed: {0}',
+  'Projekt „{0}“ wurde als neuer Workflow geöffnet.': 'Project “{0}” opened as a new workflow.',
+  'Öffnen fehlgeschlagen: {0}': 'Open failed: {0}',
+  'Projekt konnte nicht geöffnet werden: {0}': 'Could not open project: {0}',
+  'Workflow „{0}“ aktiviert.': 'Workflow “{0}” activated.',
+  'Workflow „{0}“ wurde erstellt.': 'Workflow “{0}” created.',
+  'Workflow „{0}“ schließen? Nicht gespeicherte Änderungen gehen verloren.': 'Close workflow “{0}”? Unsaved changes will be lost.',
+  'Projektname': 'Project name',
+  'Öffnen': 'Open',
+  'Speichern': 'Save',
+  'Globale Einstellungen': 'Settings',
+  'Löschen von Nodes bestätigen': 'Confirm node deletion',
+  'Show-/Debug-Nodes und leere Nodes werden weiterhin ohne Nachfrage gelöscht.': 'Show/Debug nodes and empty nodes are still deleted without confirmation.',
+  'Zum {0} Design wechseln': 'Switch to {0} theme',
+  'hellen': 'light',
+  'dunklen': 'dark',
+  'Läuft…': 'Running…',
+  'Workflow ausführen': 'Run workflow',
+  'Unbenannter Workflow': 'Untitled workflow',
+  'Workflow „{0}“ schließen': 'Close workflow “{0}”',
+  'Workflow schließen': 'Close workflow',
+  'Workflow hinzufügen': 'Add workflow',
+  'ARBEITSFLÄCHE': 'CANVAS',
+  'VERBINDUNGEN': 'CONNECTIONS',
+  'Tutorial ausblenden': 'Hide tutorial',
+  'SCHNELLSTART': 'QUICK START',
+  'Node-Sidebar': 'Node sidebar',
+  'Sidebar-Tabs': 'Sidebar tabs',
+  'Nodes': 'Nodes',
+  'Documentation': 'Documentation',
+  'Wähle einen Node aus, um ihn zur Arbeitsfläche hinzuzufügen.': 'Choose a node to add it to the canvas.',
+  'Node-Dokumentation': 'Node documentation',
+  'Code-Node': 'Code node',
+  'Werteknoten': 'Values node',
+  'If-/Else-Node': 'If/Else node',
+  'Show-Node': 'Show node',
+  'Debug-Node': 'Debug node',
+  'Datei-Node': 'File node',
+  'Ansichts-Node': 'View node',
+  'Führt JavaScript aus und verarbeitet verbundene Eingänge. Schreibe den Inhalt von run(inputs); gib Ergebnisse als Objekt zurück, zum Beispiel return { result: inputs.value * 2 }.': 'Runs JavaScript and processes connected inputs. Write the body of run(inputs); return results as an object, for example return { result: inputs.value * 2 }.',
+  'Definiert Konstanten und übernimmt verbundene Werte. Jeder Wert wird als eigener Ausgang angeboten; allValues bündelt alle Einträge als Objekt.': 'Defines constants and accepts connected values. Each value is available as an output; allValues combines every entry into an object.',
+  'Wertet einen JavaScript-Ausdruck aus, zum Beispiel inputs.value > 10, und stellt die booleschen Ausgänge true und false bereit.': 'Evaluates a JavaScript expression, such as inputs.value > 10, and provides the boolean outputs true and false.',
+  'Zeigt einen Wert als Ergebnis im Workflow an. Verbinde einen Eingang und verwende show(wert) in einer Code-Node.': 'Displays a value as a workflow result. Connect an input and use show(value) in a code node.',
+  'Gibt Namen und Werte im Ausführungsprotokoll aus. Verwende debug(wert) in einer Code-Node, um Zwischenergebnisse zu untersuchen.': 'Writes names and values to the execution log. Use debug(value) in a code node to inspect intermediate results.',
+  'Lädt eine lokale UTF-8-JSON- oder CSV-Datei und gibt deren Inhalt am Ausgang data weiter. CSV-Zeilen werden zu Objekten; Werte bleiben Text.': 'Loads a local UTF-8 JSON or CSV file and passes its contents through the data output. CSV rows become objects; values remain text.',
+  'Visualisiert verbundene Daten als Tabelle, JSON oder Diagramm. Verbinde data und führe den Workflow aus; Ansicht und Diagrammoptionen kannst du danach wechseln.': 'Visualizes connected data as a table, JSON, or chart. Connect data and run the workflow; you can then change the view and chart options.',
+  'Fasst verbundene Eingänge unter ihren Namen zu einem Objekt zusammen und gibt es über data aus. Punkt- und Array-Pfade wie user.name werden unterstützt.': 'Combines connected inputs into an object using their names and emits it through data. Dot and array paths such as user.name are supported.',
+  'Ziehe eine Verbindung vom Ausgang rechts zu einem Eingang links. Nodes lassen sich auch über das Kontextmenü der Arbeitsfläche hinzufügen.': 'Drag a connection from an output on the right to an input on the left. You can also add nodes from the canvas context menu.',
+  'Dein erster Workflow': 'Your first workflow',
+  'Schreibe JavaScript in eine Node oder lege feste Werte in einem Werteknoten an.': 'Write JavaScript in a node or define constants in a value node.',
+  'Eingang als Variable': 'Input as a variable',
+  'inputs.wert → Strg+Leertaste': 'inputs.value → Ctrl+Space',
+  'Ergebnis zurückgeben': 'Return a result',
+  'Nodes verbinden': 'Connect nodes',
+  'Ziehe vom Ausgang rechts zum Eingang links.': 'Drag from an output on the right to an input on the left.',
+  'zeigt Name und Wert.': 'shows the name and value.',
+  'zeigt nur den Wert.': 'shows only the value.',
+  'Code-Node hinzufügen': 'Add code node',
+  'Werteknoten hinzufügen': 'Add value node',
+  'If-/Else-Node hinzufügen': 'Add If/Else node',
+  'Show-Node hinzufügen': 'Add Show node',
+  'Debug-Node hinzufügen': 'Add Debug node',
+  'Datei-Node hinzufügen': 'Add file node',
+  'Schnellstart anzeigen': 'Show quick start',
+  'Node-Farbe auswählen': 'Choose node color',
+  'Node hinzufügen': 'Add node',
+  'Werte': 'Values',
+  'Datei (JSON / CSV)': 'File (JSON / CSV)',
+  'LOKALES PROJEKT · V1': 'LOCAL PROJECT · V1',
+  'Node löschen?': 'Delete node?',
+  'Nodes löschen?': 'Delete nodes?',
+  'Die Inhalte und zugehörigen Verbindungen werden unwiderruflich gelöscht.': 'The contents and associated connections will be permanently deleted.',
+  'Abbrechen': 'Cancel',
+  'Löschen': 'Delete',
+  '{0} als Variable anlegen': 'Create variable {0}',
+  '{0} zu return hinzufügen': 'Add {0} to return',
+  'Vorhandene Ausgänge behalten': 'Keep existing outputs',
+  'Nur {0} zurückgeben': 'Return only {0}',
+  'Bereit': 'Ready',
+  'Geändert': 'Changed',
+  'Läuft': 'Running',
+  'Erfolgreich': 'Successful',
+  'Fehlgeschlagen': 'Failed',
+  'Zum Verschieben ziehen': 'Drag to move',
+  'Node-Titel': 'Node title',
+  'Code anzeigen': 'Show code',
+  'Code einklappen': 'Collapse code',
+  'Wert für {0}': 'Value for {0}',
+  'JavaScript-Code': 'JavaScript code',
+  'Debug- und Ergebnisausgaben': 'Debug and result output',
+  '{0}-Nachricht löschen': 'Delete {0} message',
+  'Ergebnis': 'Result',
+  'Nachricht löschen': 'Delete message',
+  'Eingänge ·': 'Inputs ·',
+  'Eingänge · 2 Ausgänge': 'Inputs · 2 Outputs',
+  'Verbundene Nodes ab {0} ausführen': 'Run connected nodes up to {0}',
+  'dieser Node': 'this node',
+  'Verbundene Nodes ausführen': 'Run connected nodes',
+  'Bedingung': 'Condition',
+  'Bedingung (JavaScript)': 'Condition (JavaScript)',
+  'JavaScript-Bedingung': 'JavaScript condition',
+  'Node leeren': 'Clear node',
+  'Node löschen': 'Delete node',
+  'Bitte eine JSON- oder CSV-Datei auswählen.': 'Please select a JSON or CSV file.',
+  'Datei konnte nicht geladen werden: {0}': 'Could not load file: {0}',
+  'Datei': 'File',
+  'JSON- oder CSV-Datei auswählen': 'Select JSON or CSV file',
+  'Datei wird gelesen…': 'Reading file…',
+  'Noch keine Datei geladen': 'No file loaded yet',
+  'CSV: erste Zeile als Spaltennamen, Werte bleiben Text. Trennzeichen werden automatisch erkannt.': 'CSV: first row contains column names, values remain text. Delimiters are detected automatically.',
+  'Bitte zuerst eine JSON- oder CSV-Datei auswählen.': 'Please select a JSON or CSV file first.',
+  'Datenzeile {0}': 'Data row {0}',
+  'Die CSV-Datei benötigt eine Kopfzeile mit benannten Spalten.': 'The CSV file requires a header row with named columns.',
+  'Die CSV-Kopfzeile enthält doppelte Spaltennamen.': 'The CSV header contains duplicate column names.',
+  'Node-Einstellungen': 'Node settings',
+  'Einstellungen': 'Settings',
+  'Name bearbeiten': 'Edit name',
+  'Ausführungszeitlimit von {0} Sekunden überschritten.': 'Execution time limit of {0} seconds exceeded.',
+  'run(inputs) muss ein Objekt oder keinen Wert zurückgeben.': 'run(inputs) must return an object or no value.',
+  'Der JavaScript-Worker ist fehlgeschlagen.': 'The JavaScript worker failed.',
+  'Name der Konstante {0}': 'Constant {0} name',
+  'Wert der Konstante {0}': 'Constant {0} value',
+  'Wert': 'Value',
+  'Konstante {0} löschen': 'Delete constant {0}',
+  'Ausgang {0}: {1}': 'Output {0}: {1}',
+  'Konstante hinzufügen': 'Add constant',
+  'Zahlen und true/false werden erkannt, alles andere ist Text.': 'Numbers and true/false are detected; everything else is text.',
+  'Sprache': 'Language',
+  'return { ergebnis: inputs.wert * 2 };': 'return { result: inputs.value * 2 };',
+  'debug(wert)': 'debug(value)',
+  'show(wert)': 'show(value)',
+  'inputs.wert > 10': 'inputs.value > 10',
+  'Ansichtssteuerung': 'View controls',
+  'Vergrößern': 'Zoom in',
+  'Verkleinern': 'Zoom out',
+  'Ansicht einpassen': 'Fit view',
+  'Interaktivität umschalten': 'Toggle interactivity',
+  'Miniaturansicht': 'Mini map',
+  'Verbindungspunkt': 'Connection handle',
+  'Mit Enter oder Leertaste auswählen, mit den Pfeiltasten verschieben, mit Entf löschen und mit Escape abwählen.': 'Press Enter or Space to select, arrow keys to move, Delete to remove, and Escape to deselect.',
+  'Mit Enter oder Leertaste auswählen, mit Entf löschen und mit Escape abwählen.': 'Press Enter or Space to select, Delete to remove, and Escape to deselect.',
+  'Node nach {0} verschoben. Neue Position: x {1}, y {2}.': 'Moved node {0}. New position: x {1}, y {2}.',
+  'oben': 'up',
+  'unten': 'down',
+  'links': 'left',
+  'rechts': 'right',
+  'Leeren': 'Clear',
+  'Ansicht': 'View',
+  'Tabelle': 'Table',
+  'Diagramm': 'Chart',
+  'Diagrammtyp': 'Chart type',
+  'Balken': 'Bar',
+  'Linie': 'Line',
+  'X-Achse': 'X axis',
+  'Y-Achse': 'Y axis',
+  'Automatisch': 'Automatic',
+  'Ansichts-Node hinzufügen': 'Add view node',
+  'Ansicht (Tabelle / JSON / Diagramm)': 'View (Table / JSON / Chart)',
+  'Verbinde Daten mit dem Eingang und führe die Node aus.': 'Connect data to the input and run the node.',
+  'Keine Zeilen vorhanden.': 'No rows available.',
+  'Vorschau: erste {0} von {1} Zeilen.': 'Preview: first {0} of {1} rows.',
+  '{0} Zeilen': '{0} rows',
+  'Die Daten enthalten zyklische Referenzen und können nicht dargestellt werden.': 'The data contains circular references and cannot be displayed.',
+  'Bitte eine numerische Spalte für die Y-Achse auswählen.': 'Please select a numeric column for the Y axis.',
+  'Zeile {0}: „{1}“ enthält keinen gültigen Zahlenwert.': 'Row {0}: “{1}” does not contain a valid numeric value.',
+  'Das Projekt enthält ungültige Ansichtseinstellungen.': 'The project contains invalid view settings.',
+  'Zeile {0}: Die Spalte „{1}“ fehlt.': 'Row {0}: Column “{1}” is missing.',
+  'Gesamtes JSON kopieren': 'Copy entire JSON',
+  'Kopieren': 'Copy',
+  'Kopiert': 'Copied',
+  'JSON-Inhalt': 'JSON content',
+  'Kopieren fehlgeschlagen: {0}': 'Copy failed: {0}',
+  'Kopieren ist hier nicht verfügbar. Verwende HTTPS oder localhost oder kopiere den markierten Text manuell.': 'Copying is not available here. Use HTTPS or localhost, or copy the selected text manually.',
+  'Bitte zuerst die Quell-Node ausführen, um einen Wert zu übernehmen.': 'Run the source node first to copy a value.',
+  'Das Objekt enthält zyklische Referenzen und kann nicht als Konstanten übernommen werden.': 'The object contains circular references and cannot be copied as constants.',
+  'Der Wert bei „{0}“ kann nicht als Konstante übernommen werden.': 'The value at “{0}” cannot be copied as a constant.',
+  '{0} bearbeitbare Konstanten übernommen. Es wurde keine Verbindung erstellt.': 'Copied {0} editable constants. No connection was created.',
+  'Eingangswert wiederherstellen': 'Restore input value',
+  'Lokale Konstanten': 'Local constants',
+  'Eingang': 'Input',
+  'Manuell überschrieben': 'Manually overridden',
+  'Collector hinzufügen': 'Add collector',
+  'Ungültiger Collector-Pfad: „{0}“.': 'Invalid Collector path: “{0}”.',
+  'Widersprüchliche Collector-Pfade bei „{0}“.': 'Conflicting Collector paths at “{0}”.',
+  'Alle Werte als Objekt': 'All values as an object',
+  'Ziehe Ausgänge auf diese Node. Jeder Eingang wird zu einem Schlüssel im Objekt data.': 'Drop outputs onto this node. Each input becomes a key in the data object.',
+  'Der Eingang enthält ungültigen JSON-Text.': 'The input contains invalid JSON text.',
+  'Ziehe einen Ausgang auf diese Node. Eingangswerte werden bei jeder Ausführung aktualisiert; bearbeitete Werte überschreiben den Eingang.': 'Drop an output onto this node. Inputs refresh on each run; edited values override the input.',
+  'Values-Nodes unterstützen nur Text, endliche Zahlen und Boolean-Werte. Für Objekte und Arrays verwende eine View-Node.': 'Values nodes only support text, finite numbers, and booleans. Use a View node for objects and arrays.',
+  '„{0}“ als bearbeitbare Konstante übernommen. Es wurde keine Verbindung erstellt.': 'Copied “{0}” as an editable constant. No connection was created.',
+  'Ziehe einen Ausgang auf diese Node, um den zuletzt berechneten Wert als Konstante zu übernehmen.': 'Drop an output onto this node to copy its last calculated value as a constant.',
+};
+
+let language: Language = localStorage.getItem('flowweave-language') === 'de' ? 'de' : 'en';
+document.documentElement.lang = language;
+const listeners = new Set<() => void>();
+
+export function getLanguage(): Language {
+  return language;
+}
+
+export function setLanguage(value: Language): void {
+  localStorage.setItem('flowweave-language', value);
+  language = value;
+  document.documentElement.lang = value;
+  listeners.forEach((listener) => listener());
+}
+
+export function useLanguage(): Language {
+  return useSyncExternalStore(
+    (listener) => {
+      listeners.add(listener);
+      return () => { listeners.delete(listener); };
+    },
+    () => language,
+  );
+}
+
+export function t(key: string, ...values: unknown[]): string {
+  const template = language === 'en' ? english[key] ?? key : key;
+  return template.replace(/\{(\d+)\}/g, (_, index: string) => {
+    const value = values[Number(index)];
+    return typeof value === 'object' && value !== null && 'key' in value && typeof value.key === 'string' &&
+      'values' in value && Array.isArray(value.values)
+      ? renderText({ key: value.key, values: value.values })
+      : String(value);
+  });
+}
+
+export function msg(key: string, ...values: unknown[]): LocalizedMessage {
+  return { key, values };
+}
+
+export function renderText(value: LocalizedText): string {
+  return typeof value === 'string' ? value : t(value.key, ...value.values);
+}
+
+export class LocalizedError extends Error {
+  readonly localizedMessage: LocalizedMessage;
+
+  constructor(key: string, ...values: unknown[]) {
+    super(t(key, ...values));
+    this.localizedMessage = msg(key, ...values);
+  }
+}
