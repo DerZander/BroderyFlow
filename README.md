@@ -57,11 +57,14 @@ npm run tauri build
 ### Run with Docker
 
 ```sh
-docker build -t flowweave .
-docker run --rm -p 8080:8080 flowweave
+docker compose up --build -d
 ```
 
-Then open [http://localhost:8080](http://localhost:8080).
+Then open [http://localhost:8080](http://localhost:8080). Stop the app with:
+
+```sh
+docker compose down
+```
 
 ## Nodes
 
