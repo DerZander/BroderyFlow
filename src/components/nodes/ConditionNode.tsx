@@ -1,10 +1,10 @@
-import { renderText, t, useLanguage } from './i18n';
+import { renderText, t, useLanguage } from '../../lib/i18n';
 import { useEffect } from 'react';
 import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
 import { CircleAlert, CircleCheck, LoaderCircle, Play } from 'lucide-react';
 import NodeSettings from './NodeSettings';
-import { inferPorts } from './ports';
-import type { CanvasNode, NodeData } from './types';
+import { inferPorts } from '../../lib/ports';
+import type { CanvasNode, NodeData } from '../../lib/types';
 
 export default function ConditionNode({ id, data, selected }: NodeProps<CanvasNode>) {
   useLanguage();

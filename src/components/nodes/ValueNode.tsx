@@ -1,9 +1,9 @@
-import { renderText, t, useLanguage } from './i18n';
+import { renderText, t, useLanguage } from '../../lib/i18n';
 import { useEffect, useState } from 'react';
 import { Handle, Position, useEdges, useNodes, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
 import { ChevronRight, CircleAlert, CircleCheck, Link2, LoaderCircle, Pencil, Play, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import NodeSettings from './NodeSettings';
-import { createValueNodeData, valuesObjectPort, type CanvasNode, type ConstantValue, type NodeData } from './types';
+import { createValueNodeData, valuesObjectPort, type CanvasNode, type ConstantValue, type NodeData } from '../../lib/types';
 
 export default function ValueNode({ id, data, selected }: NodeProps<CanvasNode>) {
   const language = useLanguage();

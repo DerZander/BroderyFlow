@@ -1,4 +1,4 @@
-import { renderText, t, useLanguage } from './i18n';
+import { renderText, t, useLanguage } from '../../lib/i18n';
 import { useEffect, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { autocompletion, closeCompletion, startCompletion, type CompletionContext } from '@codemirror/autocomplete';
@@ -8,8 +8,8 @@ import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { Handle, NodeResizeControl, Position, useConnection, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
 import { ChevronDown, ChevronRight, CircleAlert, CircleCheck, LoaderCircle, Play, X } from 'lucide-react';
 import NodeSettings from './NodeSettings';
-import { inferPorts, returnVariableChanges } from './ports';
-import type { CanvasNode, NodeData } from './types';
+import { inferPorts, returnVariableChanges } from '../../lib/ports';
+import type { CanvasNode, NodeData } from '../../lib/types';
 
 export function inputDropIndex(element: Element, clientY: number): number {
   const rows = [...element.querySelectorAll('.input-port')];

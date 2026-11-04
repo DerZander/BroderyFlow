@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import { ChartNoAxesCombined, Copy, Play, Trash2 } from 'lucide-react';
 import NodeSettings from './NodeSettings';
-import { LocalizedError, msg, renderText, t, useLanguage, type LocalizedText } from './i18n';
-import { chartColumns, chartPoints, defaultViewSettings, formatValue, tableData, type ViewSettings } from './visualization';
-import type { CanvasNode } from './types';
+import { LocalizedError, msg, renderText, t, useLanguage, type LocalizedText } from '../../lib/i18n';
+import { chartColumns, chartPoints, defaultViewSettings, formatValue, tableData, type ViewSettings } from '../../lib/visualization';
+import type { CanvasNode } from '../../lib/types';
 
 const pageSize = 100;
 

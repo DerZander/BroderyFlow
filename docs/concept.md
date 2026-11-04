@@ -1,4 +1,4 @@
-# Konzept: Visuelle Code-Canvas-Desktop-App
+# Konzept: Visuelle Code-Canvas-App
 
 ## Ziel
 

@@ -1,10 +1,10 @@
-import { LocalizedError, msg, renderText, t, useLanguage } from './i18n';
+import { LocalizedError, msg, renderText, t, useLanguage } from '../../lib/i18n';
 import { useState } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import { FileInput, Play } from 'lucide-react';
 import NodeSettings from './NodeSettings';
-import { parseImportedFile, type ImportedFile } from './files';
-import type { CanvasNode } from './types';
+import { parseImportedFile, type ImportedFile } from '../../lib/files';
+import type { CanvasNode } from '../../lib/types';
 
 export default function FileNode({ id, data, selected }: NodeProps<CanvasNode>) {
   useLanguage();

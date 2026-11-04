@@ -1,4 +1,4 @@
-import { LocalizedError, msg, renderText, setLanguage, t, useLanguage, type LocalizedMessage, type LocalizedText } from './i18n';
+import { LocalizedError, msg, renderText, setLanguage, t, useLanguage, type LocalizedMessage, type LocalizedText } from './lib/i18n';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   addEdge,
@@ -18,19 +18,19 @@ import { isTauri } from '@tauri-apps/api/core';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import { ChevronLeft, ChevronRight, FileJson2, FolderOpen, Moon, Play, Plus, Save, Settings, Sun, Trash2, Workflow as WorkflowIcon, X } from 'lucide-react';
-import CodeNode, { inputDropIndex } from './CodeNode';
-import ConditionNode from './ConditionNode';
-import DisplayNode from './DisplayNode';
-import ValueNode from './ValueNode';
-import FileNode from './FileNode';
-import ViewNode from './ViewNode';
-import CollectorNode from './CollectorNode';
-import { collectInputs } from './collector';
-import { isViewSettings } from './visualization';
-import { parseImportedFile } from './files';
-import { resolveValues, valueSnapshots } from './valueSnapshot';
-import { addInputVariable, inferPorts, isPortType } from './ports';
-import { executeCode, type ExecutionLog } from './runner';
+import CodeNode, { inputDropIndex } from './components/nodes/CodeNode';
+import ConditionNode from './components/nodes/ConditionNode';
+import DisplayNode from './components/nodes/DisplayNode';
+import ValueNode from './components/nodes/ValueNode';
+import FileNode from './components/nodes/FileNode';
+import ViewNode from './components/nodes/ViewNode';
+import CollectorNode from './components/nodes/CollectorNode';
+import { collectInputs } from './lib/collector';
+import { isViewSettings } from './lib/visualization';
+import { parseImportedFile } from './lib/files';
+import { resolveValues, valueSnapshots } from './lib/valueSnapshot';
+import { addInputVariable, inferPorts, isPortType } from './lib/ports';
+import { executeCode, type ExecutionLog } from './lib/runner';
 import {
   createNodeData,
   createDisplayNodeData,
@@ -49,7 +49,7 @@ import {
   type Port,
   type ProjectFile,
   type ValueType,
-} from './types';
+} from './lib/types';
 
 const nodeTypes: NodeTypes = { code: CodeNode, value: ValueNode, condition: ConditionNode, show: DisplayNode, debug: DisplayNode, file: FileNode, view: ViewNode, collector: CollectorNode };
 const nodeId = () => `node-${crypto.randomUUID()}`;

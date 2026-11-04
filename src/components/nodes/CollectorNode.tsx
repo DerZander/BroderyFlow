@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
 import { Braces, Play, Trash2 } from 'lucide-react';
 import NodeSettings from './NodeSettings';
-import { renderText, t, useLanguage } from './i18n';
-import type { CanvasNode } from './types';
+import { renderText, t, useLanguage } from '../../lib/i18n';
+import type { CanvasNode } from '../../lib/types';
 
 export default function CollectorNode({ id, data, selected }: NodeProps<CanvasNode>) {
   useLanguage();

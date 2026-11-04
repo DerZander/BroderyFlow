@@ -1,8 +1,8 @@
-import { renderText, t, useLanguage } from './i18n';
+import { renderText, t, useLanguage } from '../../lib/i18n';
 import { useEffect } from 'react';
 import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
 import { CircleAlert, CircleCheck, Eraser, LoaderCircle, Play, Trash2, X } from 'lucide-react';
-import type { CanvasNode } from './types';
+import type { CanvasNode } from '../../lib/types';
 
 export default function DisplayNode({ id, data, type, selected }: NodeProps<CanvasNode>) {
   useLanguage();

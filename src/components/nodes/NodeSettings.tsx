@@ -1,7 +1,7 @@
-import { t, useLanguage } from './i18n';
+import { t, useLanguage } from '../../lib/i18n';
 import { useState } from 'react';
 import { Eraser, Settings, Trash2 } from 'lucide-react';
-import type { NodeData } from './types';
+import type { NodeData } from '../../lib/types';
 
 export default function NodeSettings({ id, data, editableTitle = true }: {
   id: string;
